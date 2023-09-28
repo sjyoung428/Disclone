@@ -28,8 +28,8 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: "서버 이름을 입력해주세요.",
   }),
-  imageUrl: z.string().url({
-    message: "이미지 URL을 입력해주세요.",
+  imageUrl: z.string().min(1, {
+    message: "서버 이미지를 추가해주세요.",
   }),
 });
 
