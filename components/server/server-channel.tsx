@@ -26,13 +26,15 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
   const Icon = iconMap[channel.type];
 
   const onClick = () => {
-    router.push(`/servers/${params?.serverId}/channels/${channel.id}}`);
+    router.push(`/servers/${params?.serverId}/channels/${channel.id}`);
   };
 
   const onAction = (event: React.MouseEvent, action: ModalType) => {
     event.stopPropagation();
     onOpen(action, { channel, server });
   };
+
+  console.log("ServerChannelId", channel.id);
 
   return (
     <button
