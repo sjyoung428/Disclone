@@ -34,8 +34,6 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
     onOpen(action, { channel, server });
   };
 
-  console.log("ServerChannelId", channel.id);
-
   return (
     <button
       onClick={onClick}
