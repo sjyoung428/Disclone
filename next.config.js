@@ -1,15 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.externals.push({
+      "utf-8-validate": "commonjs utf-8-validate",
+      bufferutil: "commonjs bufferutil",
+    });
+    return config;
+  },
   images: {
     domains: ["utfs.io"],
-  },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      bufferutil: false,
-      "utf-8-validate": false,
-    };
-    return config;
   },
 };
 
