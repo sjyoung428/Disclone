@@ -1,4 +1,4 @@
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
@@ -33,7 +33,11 @@ export default function RootLayout({
           >
             <SocketProvider>
               <ModalProvider />
-              <QueryProvider>{children}</QueryProvider>
+              <QueryProvider>
+                {/* <ClerkLoading></ClerkLoading>
+                <ClerkLoaded>{children}</ClerkLoaded> */}
+                {children}
+              </QueryProvider>
             </SocketProvider>
           </ThemeProvider>
         </body>
