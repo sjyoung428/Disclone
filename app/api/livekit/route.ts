@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const room = req.nextUrl.searchParams.get("room");
   const username = req.nextUrl.searchParams.get("username");
+  const date = req.nextUrl.searchParams.get("date");
+
   if (!room) {
     return NextResponse.json(
       { error: 'Missing "room" query parameter' },
@@ -12,6 +14,11 @@ export async function GET(req: NextRequest) {
   } else if (!username) {
     return NextResponse.json(
       { error: 'Missing "username" query parameter' },
+      { status: 400 }
+    );
+  } else if (!date) {
+    return NextResponse.json(
+      { error: 'Missing "date" query parameter' },
       { status: 400 }
     );
   }
@@ -27,7 +34,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const at = new AccessToken(apiKey, apiSecret, { identity: username });
+  const at = new AccessToken(apiKey, apiSecret, { identity: username + date });
 
   at.addGrant({ room, roomJoin: true, canPublish: true, canSubscribe: true });
 
