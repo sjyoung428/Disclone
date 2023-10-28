@@ -1,6 +1,13 @@
 import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
+import {
+  Hash,
+  Mic,
+  ShieldAlert,
+  ShieldCheck,
+  Video,
+  Volume2,
+} from "lucide-react";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
@@ -18,8 +25,7 @@ interface ServerSideBarProps {
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
-  [ChannelType.AUDIO]: <Mic className="mr-2 h-4 w-4" />,
-  [ChannelType.VIDEO]: <Video className="mr-2 h-4 w-4" />,
+  [ChannelType.VOICE]: <Volume2 className="mr-2 h-4 w-4" />,
 };
 
 const roleIconMap = {
@@ -61,12 +67,10 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
   const textChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.TEXT
   );
-  const audioChannels = server?.channels.filter(
-    (channel) => channel.type === ChannelType.AUDIO
+  const voiceChannels = server?.channels.filter(
+    (channel) => channel.type === ChannelType.VOICE
   );
-  const videoChannels = server?.channels.filter(
-    (channel) => channel.type === ChannelType.VIDEO
-  );
+
   const members = server?.members.filter(
     (member) => member.profileId !== profile.id
   );
@@ -88,7 +92,7 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
             server={server}
             data={[
               {
-                label: "Text Channels",
+                label: "채팅 채널",
                 type: "channel",
                 data: textChannels?.map((channel) => ({
                   icon: iconMap[channel.type],
@@ -97,23 +101,15 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
                 })),
               },
               {
-                label: "Voice Channels",
+                label: "음성 채널",
                 type: "channel",
-                data: audioChannels?.map((channel) => ({
+                data: voiceChannels?.map((channel) => ({
                   icon: iconMap[channel.type],
                   name: channel.name,
                   id: channel.id,
                 })),
               },
-              {
-                label: "Video Channels",
-                type: "channel",
-                data: videoChannels?.map((channel) => ({
-                  icon: iconMap[channel.type],
-                  name: channel.name,
-                  id: channel.id,
-                })),
-              },
+
               {
                 label: "Memebers",
                 type: "member",
@@ -133,7 +129,7 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
               sectionType="channels"
               channelType={ChannelType.TEXT}
               role={role}
-              label="Text Channels"
+              label="채팅 채널"
             />
             <div className="space-y-[2px]">
               {textChannels.map((channel) => (
@@ -147,16 +143,16 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
             </div>
           </div>
         )}
-        {!!audioChannels?.length && (
+        {!!voiceChannels?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
-              channelType={ChannelType.AUDIO}
+              channelType={ChannelType.VOICE}
               role={role}
-              label="Voice Channels"
+              label="음성 채널"
             />
             <div className="space-y-[2px]">
-              {audioChannels.map((channel) => (
+              {voiceChannels.map((channel) => (
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
@@ -167,26 +163,7 @@ export const ServerSideBar = async ({ serverId }: ServerSideBarProps) => {
             </div>
           </div>
         )}
-        {!!videoChannels?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.VIDEO}
-              role={role}
-              label="Video Channels"
-            />
-            <div className="space-y-[2px]">
-              {videoChannels.map((channel) => (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  role={role}
-                  server={server}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+
         {!!members?.length && (
           <div className="mb-2">
             <ServerSection

@@ -26,14 +26,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { useModalStore } from "@/hooks/use-modal-store";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useEffect } from "react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 const formSchema = z.object({
   name: z
@@ -132,8 +126,10 @@ export const CreateChannelModal = () => {
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>채널 타입</FormLabel>
-                    <Select
+                    <FormLabel className="text-sx font-bold text-zinc-500 dark:text-secondary/70">
+                      채널 타입
+                    </FormLabel>
+                    {/* <Select
                       disabled={isLoading}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -150,7 +146,30 @@ export const CreateChannelModal = () => {
                           </SelectItem>
                         ))}
                       </SelectContent>
-                    </Select>
+                    </Select> */}
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={ChannelType.TEXT}
+                        className=""
+                      >
+                        {Object.values(ChannelType).map((type) => (
+                          <FormItem
+                            key={type}
+                            className="group flex items-center justify-between space-x-3 space-y-0"
+                          >
+                            <FormLabel className="w-full h-8 px-4 rounded flex items-center justify-between cursor-pointer group-hover:bg-zinc-300/50">
+                              <span className="text-zinc-600 font-normal">
+                                {type}
+                              </span>
+                              <FormControl className="">
+                                <RadioGroupItem value={type} className="" />
+                              </FormControl>
+                            </FormLabel>
+                          </FormItem>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

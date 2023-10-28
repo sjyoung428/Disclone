@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Channel, ChannelType, MemberRole, Server } from "@prisma/client";
-import { Edit, Hash, Lock, Mic, Trash, Video } from "lucide-react";
+import { Edit, Hash, Lock, Mic, Trash, Video, Volume2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { ModalType, useModalStore } from "@/hooks/use-modal-store";
@@ -14,8 +14,7 @@ interface ServerChannelProps {
 }
 const iconMap = {
   [ChannelType.TEXT]: Hash,
-  [ChannelType.AUDIO]: Mic,
-  [ChannelType.VIDEO]: Video,
+  [ChannelType.VOICE]: Volume2,
 };
 
 const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
